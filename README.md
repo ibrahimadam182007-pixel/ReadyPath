@@ -45,6 +45,5 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 ## Team Kampus_Ungu
 * **Muhammad Jofan Ishlahuddin** — Team Leader
 * **Putra Andhika**
-* **Danndifadila**
-* **Arrasikhuuna Herwanto**
+* **Danndifadila Arrasikhuuna Herwanto**
 * **Muhammad Ibrahim Adam**

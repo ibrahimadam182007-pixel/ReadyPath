@@ -28,7 +28,7 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/ibrahimadam182007-pixel/readypath.git](https://github.com/ibrahimadam182007-pixel/readypath.git)
+   git clone https://github.com/ibrahimadam182007-pixel/readypath.git
    ```
 
 2. **Navigate to the project directory**

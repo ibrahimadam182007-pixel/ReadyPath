@@ -24,7 +24,6 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 * **Final Day (16 December 2026):** Full working Countdown Plan integrated with automated email reminders.
 
 ## Getting Started
-*(Update this section once the initial codebase is pushed)*
 
 1. **Clone the repository**
    ```bash

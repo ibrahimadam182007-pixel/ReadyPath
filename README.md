@@ -28,7 +28,7 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/](https://github.com/)[your-username]/readypath.git
+   git clone [https://github.com/ibrahimadam182007-pixel/readypath.git](https://github.com/ibrahimadam182007-pixel/readypath.git)
    ```
 
 2. **Navigate to the project directory**
@@ -45,5 +45,6 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 ## Team Kampus_Ungu
 * **Muhammad Jofan Ishlahuddin** — Team Leader
 * **Putra Andhika**
-* **Danndifadila Arrasikhuuna Herwanto**
+* **Danndifadila**
+* **Arrasikhuuna Herwanto**
 * **Muhammad Ibrahim Adam**

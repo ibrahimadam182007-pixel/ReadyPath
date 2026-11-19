@@ -14,8 +14,8 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 * **Backward Countdown Plan & Reminders:** Works backward from the application deadline to map out actionable milestones (e.g., target certificate completion date or target semester GPA) paired with email reminders.
 
 ## Planned Tech Stack
-* **Application:** Responsive / Mobile-Friendly Web App *(adjust with your chosen framework, e.g., Next.js / React)*
-* **Database:** Managed Relational/Document Database *(e.g., PostgreSQL / Supabase / Firebase)*
+* **Application:** Responsive / Mobile-Friendly Web App
+* **Database:** Managed Relational/Document Database
 * **Logic Engine:** Deterministic rule-based eligibility & GPA calculation
 * **Notifications:** Automated Email Reminders
 

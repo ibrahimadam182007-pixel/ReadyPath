@@ -114,7 +114,7 @@ export default function WelcomePage() {
       {/* Pinned Bottom CTA within thumb reach */}
       <footer className="px-4 pt-2 pb-5 bg-rp-bg">
         <Link
-          href="#get-started"
+          href="/signup"
           className="w-full h-[42px] inline-flex items-center justify-center gap-2 rounded-[8px] bg-rp-primary px-4 text-[14px] font-semibold text-rp-primary-on hover:bg-[#123129] active:brightness-90 transition"
         >
           <span>Get Started</span>
@@ -123,7 +123,7 @@ export default function WelcomePage() {
         <p className="mt-3 text-center text-[12px] text-rp-text-muted-bg">
           Already have an account?{" "}
           <Link
-            href="#login"
+            href="/login"
             className="font-semibold text-rp-text underline underline-offset-2"
           >
             Log in

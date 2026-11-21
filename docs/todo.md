@@ -60,23 +60,25 @@ This checklist outlines the end-to-end development phases for ReadyPath, from in
 ---
 
 ## Phase 5: Mobile-Friendly Frontend Development
-- [ ] **Navigation & Layout**:
-  - [ ] Mobile-optimized bottom navigation / responsive header.
-  - [ ] Prototype banner ("Prototype data from official announcements for validation").
-- [ ] **Student Profile Onboarding**:
-  - [ ] Form for Semester, Current GPA.
-  - [ ] Certificate adder (Name, Expiry Date picker, Score).
-  - [ ] Experience duration input.
-  - [ ] Client-side validation with `react-hook-form` and `zod`.
-- [ ] **Opportunity Directory**:
-  - [ ] Card list view with search and category filter.
-  - [ ] Opportunity detail view with source link and last-verified date badge.
-- [ ] **Gap Report View**:
-  - [ ] Visual badge indicators (Met / Not Met).
-  - [ ] Clear numerical difference display (e.g., "-0.15 GPA needed").
-- [ ] **Countdown Plan View**:
-  - [ ] Timeline component visualizing milestones working backward from target date.
-  - [ ] Toggle switch for email reminders.
+- [x] **Navigation & Layout**:
+  - [x] Mobile-optimized 3-tab bottom navigation (`Explore`, `My Plans`, `Profile`) & Forest/Sage header variants (`src/components/layout/`).
+  - [x] Dashed `Prototype Data` badge (`src/components/ui/prototype-badge.tsx`).
+- [x] **Welcome & Auth Screens**:
+  - [x] Welcome / Onboarding (`/`) with AMIKOM brand header, dotted trajectory, and 3-step guide.
+  - [x] Create Account (`/signup`) & Login (`/login`) with inline field validation and Google OAuth button layout.
+- [x] **Student Profile Onboarding (`/profile`)**:
+  - [x] Form for Semester, Current GPA (`/4.00`), Degree, and Major.
+  - [x] Certificate manager (type, score, expiry date picker, undo snackbar on delete).
+  - [x] Experience manager (role, organization, category, duration in months, undo snackbar on delete).
+- [x] **Opportunity Directory (`/explore`)**:
+  - [x] Search input, horizontally scrollable category filter chips (`All`, `Scholarship`, `Competition`, `Internship`, `Training`), Sem/GPA pill.
+  - [x] Real-time deterministic gap status chips (`Eligible` / `Missing N Requirements`), skeleton loading, and empty state.
+- [x] **Opportunity Detail & Gap Report (`/opportunities/[id]`)**:
+  - [x] Program summary card with official source link, last-verified pill, and deadline pill.
+  - [x] `GapReportCard` with accessible segmented progress bar, `UNMET REQUIREMENTS`, and `MET REQUIREMENTS`.
+- [x] **Countdown Plan & My Plans (`/opportunities/[id]/countdown`, `/plans`)**:
+  - [x] Big countdown header (`days until the deadline`), email reminder toggle card (`H-30`, `H-14`, `H-7` chips), and backward timeline.
+  - [x] Saved targets list on `/plans` with readiness progress bar, profile summary card, and reminder summary.
 
 ---
 

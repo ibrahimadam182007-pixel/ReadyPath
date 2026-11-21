@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { ReadyPathProvider } from "@/components/providers/readypath-store";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={`${plusJakartaSans.className} min-h-screen bg-[#B7D1BA] text-rp-text flex justify-center`}
       >
         <div className="w-full max-w-[390px] min-h-screen bg-rp-bg flex flex-col border-x border-rp-border/70">
-          {children}
+          <ReadyPathProvider>{children}</ReadyPathProvider>
         </div>
       </body>
     </html>

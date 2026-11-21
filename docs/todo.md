@@ -9,7 +9,7 @@ This checklist outlines the end-to-end development phases for ReadyPath, from in
 - [x] Set up Git repository initialized with `.gitignore`.
 - [x] Set up environment configuration (`.env.example` with DB URL, Auth secrets, Resend API key).
 - [x] Initialize Next.js project with TypeScript, ESLint, and Tailwind CSS.
-- [x] Configure `shadcn/ui` and mobile-responsive viewport settings.
+- [x] Configure `shadcn/ui`, mobile-responsive viewport (`390px` portrait frame), and Forest/Sage theme tokens aligned with [`docs/design.md`](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/design.md).
 - [x] Verified optimized production build (`npm run build`).
 
 ---
@@ -43,15 +43,19 @@ This checklist outlines the end-to-end development phases for ReadyPath, from in
 ---
 
 ## Phase 4: Deterministic Engine Development (Pure Code)
-- [ ] **Eligibility Evaluator (`eligibility.ts`)**:
-  - [ ] Evaluate semester range eligibility (`min_semester` - `max_semester`).
-  - [ ] Evaluate GPA cutoff (`min_gpa`).
-  - [ ] Evaluate certificate validity against program deadline (expiry date checking).
-  - [ ] Generate structured Gap Report output: `{ met: boolean, items: [{ rule, status, actual, required }] }`.
-- [ ] **Backward Planner (`countdown.ts` & `gpa-calculator.ts`)**:
-  - [ ] Calculate reverse milestone dates from deadline (e.g., test taking buffer, submission draft).
-  - [ ] Calculate required semester GPA for remaining terms to hit minimum threshold.
-- [ ] Write comprehensive unit tests for all edge cases (zero certificates, expiring on deadline day, borderline GPA).
+- [x] **Schemas & Types (`src/lib/engine/schema.ts`)**:
+  - [x] Strict Zod validation & TypeScript contracts for Student Profile, Opportunity Rules, Gap Report, and Countdown Plan.
+- [x] **Eligibility Evaluator (`src/lib/engine/eligibility.ts`)**:
+  - [x] Evaluate degree level & eligible majors.
+  - [x] Evaluate semester range eligibility (`minSemester` - `maxSemester`).
+  - [x] Evaluate GPA cutoff (`minGpa`) with exact delta calculation.
+  - [x] Evaluate certificate validity against program deadline (UTC calendar-day expiry date checking & score verification).
+  - [x] Evaluate relevant experience months (`minExperienceMonths`).
+  - [x] Generate structured Gap Report output (`MET` / `NOT_MET` per rule).
+- [x] **Backward Planner (`src/lib/engine/countdown.ts` & `src/lib/engine/gpa-calculator.ts`)**:
+  - [x] Calculate reverse milestone dates from deadline (test taking buffer, experience start date, document draft H-14, final submission H-3).
+  - [x] Calculate required semester GPA for remaining terms to hit minimum threshold (plus achievability check <= 4.00).
+- [x] Write comprehensive unit tests (`src/lib/engine/__tests__/engine.test.ts`) for edge cases (expiring on deadline day, 1 day before deadline, low score, borderline GPA, missing experience).
 
 ---
 

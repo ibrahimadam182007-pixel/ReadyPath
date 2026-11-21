@@ -1,13 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
-  title: "ReadyPath - Student Opportunity Eligibility & Countdown Planner",
+  title: "ReadyPath — Universitas AMIKOM Yogyakarta",
   description:
-    "Mobile-friendly planner that compares student profiles against opportunity requirements, generates gap reports, and computes countdown plans backward from deadlines.",
+    "Know what you miss and by when to act for campus opportunities. Matches your student profile against scholarships, competitions, internships, and training.",
 };
 
 export const viewport: Viewport = {
@@ -15,7 +19,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#2563eb",
+  themeColor: "#173D33",
 };
 
 export default function RootLayout({
@@ -24,9 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="h-full antialiased">
-      <body className={`${inter.className} min-h-screen bg-slate-100 text-slate-900 flex justify-center`}>
-        <div className="w-full max-w-md min-h-screen bg-white shadow-xl flex flex-col border-x border-slate-200">
+    <html lang="en" className={`h-full antialiased ${plusJakartaSans.variable}`}>
+      <body
+        className={`${plusJakartaSans.className} min-h-screen bg-[#B7D1BA] text-rp-text flex justify-center`}
+      >
+        <div className="w-full max-w-[390px] min-h-screen bg-rp-bg flex flex-col border-x border-rp-border/70">
           {children}
         </div>
       </body>

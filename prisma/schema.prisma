@@ -40,6 +40,8 @@ enum ExperienceCategory {
 enum OpportunityCategory {
   SCHOLARSHIP // Beasiswa Dalam & Luar Negeri
   INTERNSHIP  // Magang Reguler & MBKM
+  COMPETITION // Lomba / Hackathon / PKM
+  TRAINING    // Pelatihan / Bootcamp / Sertifikasi Kampus
   EXCHANGE    // Student Exchange / Mobility (misal IISMA)
   FELLOWSHIP  // Leadership / Career Fellowship
 }

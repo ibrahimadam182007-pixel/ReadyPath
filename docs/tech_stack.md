@@ -27,27 +27,46 @@ ReadyPath is built with a focus on simplicity, responsiveness, deterministic exe
 
 ## 3. Data Schema Overview
 
-### Core Entities
-1. **User**: `id`, `email`, `name`, `created_at`
+Detailed implementation resides in [`prisma/schema.prisma`](file:///C:/Users/ThinkPad/Projects/ReadyPath/prisma/schema.prisma) and [`src/lib/db/types.ts`](file:///C:/Users/ThinkPad/Projects/ReadyPath/src/lib/db/types.ts).
+
+### 3.1 User & Student Profile Database
+1. **User / Account / Session / VerificationToken**: Standard Authentication tables (OAuth & Passwordless Magic Link).
 2. **StudentProfile**:
-   - `user_id` (FK)
-   - `current_semester` (Int)
-   - `cumulative_gpa` (Float)
-   - `certificates`: Array of `{ name, score, issue_date, expiry_date }`
-   - `experiences`: Array of `{ role, category, duration_months }`
-3. **Opportunity**:
-   - `id`, `slug`, `title`, `provider`, `category`
-   - `deadline` (DateTime)
-   - `source_url` (String)
-   - `last_verified_at` (DateTime)
-   - `is_prototype` (Boolean, default: true)
-   - `rules` (JSONB): e.g. `{ min_gpa: 3.5, eligible_semesters: [4, 5, 6], required_certs: [...] }`
-4. **TargetPlan (Countdown Plan)**:
-   - `id`, `user_id`, `opportunity_id`
-   - `target_deadline` (DateTime)
-   - `milestones` (JSONB): Calculated checkpoints (e.g. date to take exam, target term GPA)
-   - `reminders_enabled` (Boolean)
-   - `notification_frequency` (String)
+   - `userId` (1-to-1 FK), `university`, `major`, `degreeLevel` (`D3` | `D4` | `S1` | `S2`)
+   - `currentSemester` (Int)
+   - `cumulativeGpa` (Decimal 3,2)
+   - `totalCreditsCompleted` (Int, optional)
+3. **StudentCertificate**:
+   - `profileId` (FK), `name`, `standardCode` (e.g., `TOEFL_IBT`, `IELTS`, `AWS_CCP`), `category`, `issuer`
+   - `score` (Decimal 6,2), `issueDate`, `expiryDate` (DateTime - checked deterministically against opportunity deadlines)
+4. **StudentExperience**:
+   - `profileId` (FK), `role`, `organization`, `category` (`INTERNSHIP` | `ORGANIZATION` | `VOLUNTEER` | `RESEARCH_PROJECT` | `FREELANCE_WORK`)
+   - `durationMonths` (Int)
+
+### 3.2 Beasiswa & Magang (Opportunity) Database
+1. **Opportunity (Core Catalog Table)**:
+   - `id`, `slug`, `title`, `provider`, `category` (`SCHOLARSHIP` | `INTERNSHIP` | `EXCHANGE` | `FELLOWSHIP`)
+   - `openDate`, `deadline`, `announcementDate`
+   - `sourceUrl`, `lastVerifiedAt`, `isPrototype` (Boolean, default: `true`)
+2. **OpportunityRule (1-to-1 Deterministic Rules)**:
+   - `minSemester`, `maxSemester`, `minGpa`, `minExperienceMonths`
+   - `allowedExperienceCategories`, `targetDegrees`, `eligibleMajors`
+   - `requiredCertificates` (JSONB validated via `RequiredCertificatesJsonSchema` in `src/lib/db/types.ts`)
+3. **ScholarshipDetail (1-to-1 Specific to Scholarships/Exchange)**:
+   - `coverageType` (`FULL` | `PARTIAL` | `ALLOWANCE_ONLY`), `coversTuitionFee`, `allowancePerMonth`, `currency`
+   - `fundingDurationMonths`, `destinationCountry`, `hasServiceBond`, `serviceBondDetails`, `benefitsList`
+4. **InternshipDetail (1-to-1 Specific to Internships)**:
+   - `workArrangement` (`REMOTE` | `HYBRID` | `ONSITE`), `location`, `stipendType` (`PAID` | `UNPAID` | `SKS_CONVERSION`), `stipendAmount`
+   - `durationMonths`, `division`, `requiredSkills`, `isMbkmEligible`
+
+### 3.3 Countdown Plan & Reminder Database
+1. **TargetPlan**:
+   - `userId`, `opportunityId`, `status` (`ACTIVE` | `COMPLETED` | `ARCHIVED`)
+   - `isFullyEligible`, `requiredNextTermGpa`
+   - `remindersEnabled`, `reminderEmail`
+2. **PlanMilestone**:
+   - `planId`, `title`, `description`, `type` (`TARGET_SEMESTER_GPA` | `CERTIFICATE_ACQUISITION` | `CERTIFICATE_RENEWAL` | `EXPERIENCE_BUILDING` | `DOCUMENT_DRAFT` | `FINAL_SUBMISSION`)
+   - `targetDate`, `daysBeforeDeadline`, `isCompleted`, `reminderSentAt`
 
 ---
 

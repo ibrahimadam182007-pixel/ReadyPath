@@ -15,13 +15,20 @@ This checklist outlines the end-to-end development phases for ReadyPath, from in
 ---
 
 ## Phase 2: Database & Data Modeling
-- [ ] Configure PostgreSQL instance (Supabase or Neon).
-- [ ] Setup Prisma/Drizzle ORM and write schema:
-  - [ ] `User` & `Account` (Authentication).
-  - [ ] `StudentProfile` (Semester, GPA, Certificates, Experiences).
-  - [ ] `Opportunity` (Metadata, Source Link, Last-Verified Date, Rules JSONB).
-  - [ ] `CountdownPlan` (User selection, Milestones, Reminder Status).
-- [ ] Execute initial database migration.
+- [x] Setup Prisma ORM (`prisma/schema.prisma`) and database singleton client (`src/lib/db/prisma.ts`).
+- [x] Build **User & Student Profile Database** schema:
+  - [x] `User`, `Account`, `Session`, `VerificationToken` (Authentication).
+  - [x] `StudentProfile` (Semester, GPA, Degree Level, University, Major).
+  - [x] `StudentCertificate` (Standardized Code, Score, Issue & Expiry Date).
+  - [x] `StudentExperience` (Role, Organization, Category, Duration Months).
+- [x] Build **Beasiswa & Magang (Opportunity) Database** schema:
+  - [x] `Opportunity` (Metadata, Source Link, Last-Verified Date, Prototype Flag).
+  - [x] `OpportunityRule` (1-to-1 structured measurable rules + Zod JSONB schema in `src/lib/db/types.ts`).
+  - [x] `ScholarshipDetail` (1-to-1 coverage type, tuition fee, monthly allowance, service bond, benefits).
+  - [x] `InternshipDetail` (1-to-1 work arrangement, location, stipend, duration, division, skills, MBKM flag).
+- [x] Build **Countdown Plan & Reminder Database** schema:
+  - [x] `TargetPlan` & `PlanMilestone` (Backward milestones, completion status, email reminder tracking).
+- [ ] Configure live PostgreSQL connection string & execute initial database migration (`prisma db push` / `prisma migrate dev`).
 
 ---
 

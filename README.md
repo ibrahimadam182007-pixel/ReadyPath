@@ -42,11 +42,7 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
    ```
 
 ## Team Kampus_Ungu
-* **Muhammad Jofan Ishlahuddin** — Team Leader
-* **Putra Andhika**
-<<<<<<< HEAD
-* **Danndifadila Arrasikhuuna Herwanto [[https://github.com/seishirou-here]]**
-=======
-* **Danndifadila Arrasikhuuna Herwanto**
->>>>>>> d20d78b94cb58724a4e26d5367a74baf07c57ef4
-* **Muhammad Ibrahim Adam**
+* **Muhammad Jofan Ishlahuddin — Team Leader [Github](https://github.com/Cat010110)**
+* **Putra Andhika - [Github](https://github.com/PutraAndhika13)**
+* **Danndifadila Arrasikhuuna Herwanto - [Github](https://github.com/seishirou-here)**
+* **Muhammad Ibrahim Adam - [Github](https://github.com/ibrahimadam182007-pixel)**

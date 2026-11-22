@@ -1,17 +1,48 @@
-# ReadyPath
+# ReadyPath: A Requirement-Gap Planner for Campus Opportunities
 
-ReadyPath is a mobile-friendly web application designed to help students bridge the gap between their current profile and competitive opportunities (scholarships, internships, exchange programs).
+> Developed by **Team Kampus_Ungu** for **Google Developer Group on Campus ITB Hackathon** — *Case 1: Smarter Campus and Learning*
 
----
+## About The Project
+**ReadyPath** is a mobile-friendly web application designed to help undergraduate students (initially targeting Universitas AMIKOM Yogyakarta) evaluate their eligibility for scholarships, competitions, internships, and training programmes before it is too late to act.
 
-## Project Documentation
-- 📄 **[Technical Specification (docs/tech_spec.md)](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/tech_spec.md)**: Product flow, rule engine mechanics, backward countdown planning logic, and scope for V1.
-- 🛠️ **[Tech Stack (docs/tech_stack.md)](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/tech_stack.md)**: Architecture, recommended frameworks (Next.js, Tailwind, PostgreSQL, Resend), and data schemas.
-- 📋 **[Todo Roadmap (docs/todo.md)](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/todo.md)**: Step-by-step implementation plan from repository setup to production deployment.
+Currently, opportunity requirements (such as minimum GPA, required certificates, and deadlines) are scattered across Instagram accounts and WhatsApp group chats, making it difficult for students to compare them against their own academic profiles. ReadyPath solves this by turning scattered announcements into a curated, structured list and generating a personalized **Gap Report** and **Countdown Plan**.
 
----
+## Key Features
+* **Student Profile Input:** Students input their current semester, GPA, certificates (along with expiry dates), and relevant experience.
+* **Curated Opportunity List:** A structured database of 15–20 verified campus opportunities complete with official source links and last-verified dates.
+* **Rule-Based Gap Report:** Compares the student's profile against structured requirement rules (computed deterministically by code, not AI) to highlight which criteria are already met and what is missing.
+* **Backward Countdown Plan & Reminders:** Works backward from the application deadline to map out actionable milestones (e.g., target certificate completion date or target semester GPA) paired with email reminders.
 
-## V1 Scope Highlights
-1. **Target Opportunities**: Curated collection of 15–20 high-value opportunities with verified source links and `last_verified_at` timestamps.
-2. **Deterministic Rules**: Eligibility and GPA calculations are evaluated strictly through code logic (no AI/LLM guesswork).
-3. **Backward Countdown**: Computes milestone target dates and necessary term GPAs working backward from the application deadline, with automated email reminders.
+## Planned Tech Stack
+* **Application:** Responsive / Mobile-Friendly Web App
+* **Database:** Managed Relational/Document Database
+* **Logic Engine:** Deterministic rule-based eligibility & GPA calculation
+* **Notifications:** Automated Email Reminders
+
+## Development Roadmap
+* **Semifinal Submission (30 November 2026):** Core data model, 15 curated opportunities, and a functional Gap Report prototype.
+* **Final Day (16 December 2026):** Full working Countdown Plan integrated with automated email reminders.
+
+## Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ibrahimadam182007-pixel/readypath.git
+   ```
+
+2. **Navigate to the project directory**
+   ```bash
+   cd readypath
+   ```
+
+3. **Install dependencies & run locally**
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+## Team Kampus_Ungu
+* **Muhammad Jofan Ishlahuddin** — Team Leader
+* **Putra Andhika**
+* **Danndifadila Arrasikhuuna Herwanto [[https://github.com/seishirou-here]]**
+* **Muhammad Ibrahim Adam**

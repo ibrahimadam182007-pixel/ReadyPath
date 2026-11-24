@@ -23,6 +23,10 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 * **Semifinal Submission (30 November 2026):** Core data model, 15 curated opportunities, and a functional Gap Report prototype.
 * **Final Day (16 December 2026):** Full working Countdown Plan integrated with automated email reminders.
 
+## Backend Setup
+
+Backend API, session authentication, profile persistence, eligibility reports, countdown plans, and email reminder cron are documented in [`docs/backend.md`](docs/backend.md). Configure PostgreSQL and environment variables before running database commands.
+
 ## Getting Started
 
 1. **Clone the repository**

@@ -12,7 +12,8 @@
     "db:validate": "prisma validate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -49,5 +50,8 @@
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
     "vitest": "^2.1.8"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.cjs"
   }
 }

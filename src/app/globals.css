@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core ReadyPath Palette (docs/design.md) */
+    --color-primary: #173D33;
+    --color-primary-text-on: #FFFFFF;
+    --color-primary-text-on-muted: rgba(255, 255, 255, 0.75);
+    --color-bg: #C9E0CC;
+    --color-surface: #FFFFFF;
+    --color-surface-met: #DCEEDC;
+    --color-tag-bg: #D3E8D5;
+    --color-text: #12332A;
+    --color-text-muted: #5B7468;
+    /* Darkened muted text for >=4.5:1 AA contrast on sage #C9E0CC background */
+    --color-text-muted-on-bg: #3D5449;
+    --color-border: #BFD3C3;
+    --color-danger: #C94A47;
+    --color-danger-bg: #FADCDC;
+    --color-danger-border: #D9605C;
+    --color-success: #1F4D40;
+
+    /* Radius Tokens */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    /* shadcn/ui HSL mappings to Calm Academic Forest/Sage theme */
+    --background: 128 29% 83%;
+    --foreground: 164 48% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 164 48% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 164 48% 14%;
+    --primary: 164 45% 16%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 126 32% 87%;
+    --secondary-foreground: 164 48% 14%;
+    --muted: 126 32% 87%;
+    --muted-foreground: 151 12% 41%;
+    --accent: 123 32% 90%;
+    --accent-foreground: 164 48% 14%;
+    --destructive: 2 55% 53%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 132 19% 79%;
+    --input: 132 19% 79%;
+    --ring: 164 45% 16%;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

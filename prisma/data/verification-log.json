@@ -1,0 +1,6 @@
+{
+  "_readme": "Isi hanya setelah tim benar-benar membuka sumber resmi dan mencocokkan syarat + deadline. Satu entri per slug peluang. Peluang tanpa entri di sini disimpan dengan lastVerifiedAt = NULL (ditampilkan sebagai 'belum diverifikasi'). Contoh format di bawah ini sengaja dibiarkan di bawah kunci _example agar tidak terbaca sebagai verifikasi asli.",
+  "_example": {
+    "nama-slug-peluang": { "verifiedAt": "2026-11-25", "verifiedBy": "Nama Anggota", "note": "Dicek di halaman resmi, syarat IPK dan deadline cocok." }
+  }
+}

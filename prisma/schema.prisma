@@ -89,6 +89,8 @@ model User {
   name          String?
   image         String?
   emailVerified DateTime?
+  passwordHash  String?   // bcrypt hash; null for Google-only accounts
+  consentedAt   DateTime? // when the user accepted the data-use notice (pilot privacy)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -214,7 +216,7 @@ model Opportunity {
   deadline         DateTime            // Tanggal penutupan pendaftaran resmi
   announcementDate DateTime?
   sourceUrl        String              // Link sumber resmi pengumuman
-  lastVerifiedAt   DateTime            // Tanggal terakhir diverifikasi tim kurasi
+  lastVerifiedAt   DateTime?            // Tanggal terakhir diverifikasi tim kurasi (NULL = belum diverifikasi)
   isPrototype      Boolean             @default(true) // Ditandai sebagai prototype data di V1
   isActive         Boolean             @default(true)
   createdAt        DateTime            @default(now())
@@ -299,6 +301,7 @@ model TargetPlan {
   
   // Pengaturan pengingat email
   remindersEnabled     Boolean    @default(true)
+  reminderOffsets      Int[]      @default([30, 14, 7]) // hari sebelum deadline
   reminderEmail        String
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
@@ -307,6 +310,7 @@ model TargetPlan {
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   opportunity Opportunity     @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
   milestones  PlanMilestone[]
+  reminderDispatches ReminderDispatch[]
 
   @@unique([userId, opportunityId])
   @@index([userId, status])
@@ -331,4 +335,21 @@ model PlanMilestone {
 
   @@index([planId, targetDate])
   @@index([targetDate, isCompleted, reminderSentAt])
+}
+
+
+/// Catatan pengiriman email pengingat. Unik per (plan, offset) supaya cron tidak mengirim ganda.
+model ReminderDispatch {
+  id         String   @id @default(cuid())
+  planId     String
+  offsetDays Int      // 30, 14, atau 7 (H-30 / H-14 / H-7)
+  status     String   // SENT | FAILED
+  provider   String?  // resend | smtp
+  error      String?  @db.Text
+  sentAt     DateTime @default(now())
+
+  plan TargetPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, offsetDays])
+  @@index([sentAt])
 }

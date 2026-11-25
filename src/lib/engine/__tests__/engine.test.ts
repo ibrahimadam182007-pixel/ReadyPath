@@ -297,4 +297,49 @@ describe("Backward Countdown Planner", () => {
 
     expect(plan.reminderSchedule.map((r) => r.code)).toEqual(["H-7"]);
   });
+
+  it("berhasil memvalidasi seluruh 15 peluang resmi dari katalog 2026", async () => {
+    const { PROTOTYPE_OPPORTUNITIES } = await import(
+      "../../data/prototype-opportunities"
+    );
+    expect(PROTOTYPE_OPPORTUNITIES).toHaveLength(15);
+
+    const testProfile: EngineStudentProfile = {
+      degreeLevel: "S1",
+      major: "Informatika",
+      currentSemester: 4,
+      cumulativeGpa: 3.45,
+      certificates: [
+        {
+          name: "UKBI",
+          standardCode: "UKBI",
+          category: "OTHER_LANGUAGE",
+          score: 600,
+          expiryDate: new Date("2027-12-31T23:59:59Z"),
+        },
+      ],
+      experiences: [
+        {
+          role: "Staff Humas",
+          organization: "BEM Kampus",
+          category: "ORGANIZATION",
+          durationMonths: 8,
+        },
+      ],
+    };
+
+    for (const opp of PROTOTYPE_OPPORTUNITIES) {
+      const report = evaluateEligibility(testProfile, opp);
+      expect(report.totalCount).toBeGreaterThan(0);
+      expect(report.metCount).toBeGreaterThanOrEqual(0);
+      expect(report.metCount).toBeLessThanOrEqual(report.totalCount);
+
+      const plan = generateCountdownPlan({
+        profile: testProfile,
+        target: opp,
+        referenceDate: new Date("2026-11-22T00:00:00Z"),
+      });
+      expect(plan.milestones.length).toBeGreaterThan(0);
+    }
+  });
 });

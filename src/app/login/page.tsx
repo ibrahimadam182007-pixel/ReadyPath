@@ -2,22 +2,20 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AuthHeader } from "@/components/layout/headers";
 import { GoogleIcon } from "@/components/ui/google-icon";
-import { useReadyPath } from "@/components/providers/readypath-store";
+import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { updateAccount } = useReadyPath();
+  const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_ENABLED === "true";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const nextErrors: Record<string, string> = {};
 
@@ -35,19 +33,23 @@ export default function LoginPage() {
 
     setErrors({});
     setIsSubmitting(true);
-    updateAccount({
+    const result = await signIn("credentials", {
       email: email.trim(),
-      isAuthenticated: true,
+      password,
+      redirect: false,
     });
-    router.push("/explore");
+    if (!result || result.error) {
+      setErrors({ password: "Incorrect email or password." });
+      setIsSubmitting(false);
+      return;
+    }
+    // Full navigation so the store re-hydrates from the new session.
+    window.location.assign("/explore");
   };
 
   const handleGoogleSignIn = () => {
     setIsSubmitting(true);
-    updateAccount({
-      isAuthenticated: true,
-    });
-    router.push("/explore");
+    signIn("google", { callbackUrl: "/explore" });
   };
 
   return (
@@ -111,12 +113,6 @@ export default function LoginPage() {
               ) : (
                 <span />
               )}
-              <Link
-                href="/signup"
-                className="text-[12px] text-rp-text-muted-bg underline underline-offset-2"
-              >
-                Forgot Password?
-              </Link>
             </div>
           </div>
         </form>
@@ -132,6 +128,8 @@ export default function LoginPage() {
           {isSubmitting ? "Logging in..." : "Log In"}
         </button>
 
+        {googleEnabled && (
+          <>
         <div className="flex items-center gap-3">
           <div className="h-px flex-1 bg-rp-border" />
           <span className="text-[11px] font-medium text-rp-text-muted-bg">or</span>
@@ -147,6 +145,8 @@ export default function LoginPage() {
           <GoogleIcon />
           <span>Sign in with Google</span>
         </button>
+          </>
+        )}
 
         <p className="pt-1 text-center text-[12px] text-rp-text-muted-bg">
           New to ReadyPath?{" "}

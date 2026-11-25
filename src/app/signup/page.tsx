@@ -2,24 +2,23 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AuthHeader } from "@/components/layout/headers";
 import { GoogleIcon } from "@/components/ui/google-icon";
-import { useReadyPath } from "@/components/providers/readypath-store";
+import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 export default function SignUpPage() {
-  const router = useRouter();
-  const { updateAccount } = useReadyPath();
+  const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_ENABLED === "true";
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const nextErrors: Record<string, string> = {};
 
@@ -35,6 +34,9 @@ export default function SignUpPage() {
     if (confirmPassword !== password) {
       nextErrors.confirmPassword = "Passwords do not match.";
     }
+    if (!consent) {
+      nextErrors.consent = "Please accept the data-use notice to continue.";
+    }
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -43,22 +45,44 @@ export default function SignUpPage() {
 
     setErrors({});
     setIsSubmitting(true);
-    updateAccount({
-      fullName: fullName.trim(),
-      email: email.trim(),
-      isAuthenticated: true,
-    });
-    router.push("/profile");
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fullName.trim(),
+          email: email.trim(),
+          password,
+          consent: true,
+        }),
+      });
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as { error?: string };
+        const message = body.error || "Could not create the account. Please try again.";
+        setErrors(res.status === 409 || res.status === 403 ? { email: message } : { form: message });
+        setIsSubmitting(false);
+        return;
+      }
+      const result = await signIn("credentials", {
+        email: email.trim(),
+        password,
+        redirect: false,
+      });
+      if (!result || result.error) {
+        setErrors({ form: "Account created, but automatic sign-in failed. Please log in." });
+        setIsSubmitting(false);
+        return;
+      }
+      window.location.assign("/profile");
+    } catch {
+      setErrors({ form: "Network error. Please try again." });
+      setIsSubmitting(false);
+    }
   };
 
   const handleGoogleSignUp = () => {
     setIsSubmitting(true);
-    updateAccount({
-      fullName: fullName.trim() || "Naufal Pratama",
-      email: email.trim() || "naufal.pratama@students.amikom.ac.id",
-      isAuthenticated: true,
-    });
-    router.push("/profile");
+    signIn("google", { callbackUrl: "/profile" });
   };
 
   return (
@@ -170,6 +194,29 @@ export default function SignUpPage() {
               </p>
             )}
           </div>
+
+          <div>
+            <label className="flex items-start gap-2 text-[11.5px] leading-snug text-rp-text">
+              <input
+                id="consent"
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0"
+              />
+              <span>
+                I understand ReadyPath stores my email, semester, GPA, certificates and experience
+                to compute my gap reports and send deadline reminders. This is a competition
+                prototype; I can ask to delete my data at any time.
+              </span>
+            </label>
+            {errors.consent && (
+              <p className="mt-1 text-[11px] font-medium text-rp-danger">{errors.consent}</p>
+            )}
+            {errors.form && (
+              <p className="mt-2 text-[11px] font-medium text-rp-danger">{errors.form}</p>
+            )}
+          </div>
         </form>
       </main>
 
@@ -184,6 +231,8 @@ export default function SignUpPage() {
           {isSubmitting ? "Creating account..." : "Create Account"}
         </button>
 
+        {googleEnabled && (
+          <>
         <div className="flex items-center gap-3">
           <div className="h-px flex-1 bg-rp-border" />
           <span className="text-[11px] font-medium text-rp-text-muted-bg">or</span>
@@ -199,6 +248,8 @@ export default function SignUpPage() {
           <GoogleIcon />
           <span>Sign up with Google</span>
         </button>
+          </>
+        )}
 
         <p className="pt-1 text-center text-[12px] text-rp-text-muted-bg">
           Already have an account?{" "}

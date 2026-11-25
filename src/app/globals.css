@@ -4,54 +4,60 @@
 
 @layer base {
   :root {
-    /* Core ReadyPath Palette (docs/design.md) */
-    --color-primary: #173D33;
+    /* ReadyPath v3.0 Calm Forest & Mint Palette (readypath-mobile.pen) */
+    --color-primary: #112F29;
+    --color-primary-hover: #1B433B;
     --color-primary-text-on: #FFFFFF;
-    --color-primary-text-on-muted: rgba(255, 255, 255, 0.75);
-    --color-bg: #C9E0CC;
+    --color-primary-text-on-muted: #B7CFC3;
+    --color-bg: #DCEEE5;
     --color-surface: #FFFFFF;
-    --color-surface-met: #DCEEDC;
-    --color-tag-bg: #D3E8D5;
-    --color-text: #12332A;
-    --color-text-muted: #5B7468;
-    /* Darkened muted text for >=4.5:1 AA contrast on sage #C9E0CC background */
-    --color-text-muted-on-bg: #3D5449;
-    --color-border: #BFD3C3;
-    --color-danger: #C94A47;
-    --color-danger-bg: #FADCDC;
-    --color-danger-border: #D9605C;
-    --color-success: #1F4D40;
+    --color-sage: #8EB69B;
+    --color-sage-strong: #4C7368;
+    --color-surface-met: #E6F4ED;
+    --color-success: #246B4B;
+    --color-tag-bg: #F3EFE6;
+    --color-tag: #7A7467;
+    --color-text: #1A2421;
+    --color-text-muted: #5E6E69;
+    --color-text-muted-on-bg: #4C7368;
+    --color-border: #C8DDD3;
+    --color-hairline: #E3EFE8;
+    --color-danger: #C93B3B;
+    --color-danger-bg: #FDECEC;
+    --color-danger-border: #F2B8B8;
 
     /* Radius Tokens */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 24px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
     --radius-pill: 999px;
 
-    /* shadcn/ui HSL mappings to Calm Academic Forest/Sage theme */
-    --background: 128 29% 83%;
-    --foreground: 164 48% 14%;
+    /* shadcn/ui HSL mappings to ReadyPath Forest & Mint theme */
+    --background: 150 38% 90%;
+    --foreground: 162 16% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 164 48% 14%;
+    --card-foreground: 162 16% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 164 48% 14%;
-    --primary: 164 45% 16%;
+    --popover-foreground: 162 16% 12%;
+    --primary: 168 47% 13%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 126 32% 87%;
-    --secondary-foreground: 164 48% 14%;
-    --muted: 126 32% 87%;
-    --muted-foreground: 151 12% 41%;
-    --accent: 123 32% 90%;
-    --accent-foreground: 164 48% 14%;
-    --destructive: 2 55% 53%;
+    --secondary: 150 38% 90%;
+    --secondary-foreground: 168 47% 13%;
+    --muted: 148 33% 93%;
+    --muted-foreground: 161 8% 40%;
+    --accent: 149 42% 93%;
+    --accent-foreground: 168 47% 13%;
+    --destructive: 0 58% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 132 19% 79%;
-    --input: 132 19% 79%;
-    --ring: 164 45% 16%;
+    --border: 151 22% 83%;
+    --input: 151 22% 83%;
+    --ring: 168 47% 13%;
   }
 }
 
+html,
 body {
   background-color: var(--color-bg);
   color: var(--color-text);

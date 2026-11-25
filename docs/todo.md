@@ -7,105 +7,59 @@ This checklist outlines the end-to-end development phases for ReadyPath, from in
 ## Phase 1: Environment Setup & Project Initialization
 - [x] Move project documentation into `docs/` directory.
 - [x] Set up Git repository initialized with `.gitignore`.
-- [x] Set up environment configuration (`.env.example` with DB URL, Auth secrets, Resend API key).
+- [x] Set up environment configuration (`.env.example` with DB URL, Auth secrets, Email & Cron config).
 - [x] Initialize Next.js project with TypeScript, ESLint, and Tailwind CSS.
-- [x] Configure `shadcn/ui`, mobile-responsive viewport (`390px` portrait frame), and Forest/Sage theme tokens aligned with [`docs/design.md`](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/design.md).
+- [x] Configure Calm Forest & Mint theme tokens aligned with [`docs/design.md`](file:///C:/Users/ThinkPad/Projects/ReadyPath/docs/design.md).
 - [x] Verified optimized production build (`npm run build`).
 
 ---
 
 ## Phase 2: Database & Data Modeling
 - [x] Setup Prisma ORM (`prisma/schema.prisma`) and database singleton client (`src/lib/db/prisma.ts`).
-- [x] Build **User & Student Profile Database** schema:
-  - [x] `User`, `Account`, `Session`, `VerificationToken` (Authentication).
-  - [x] `StudentProfile` (Semester, GPA, Degree Level, University, Major).
-  - [x] `StudentCertificate` (Standardized Code, Score, Issue & Expiry Date).
-  - [x] `StudentExperience` (Role, Organization, Category, Duration Months).
-- [x] Build **Beasiswa & Magang (Opportunity) Database** schema:
-  - [x] `Opportunity` (Metadata, Source Link, Last-Verified Date, Prototype Flag).
-  - [x] `OpportunityRule` (1-to-1 structured measurable rules + Zod JSONB schema in `src/lib/db/types.ts`).
-  - [x] `ScholarshipDetail` (1-to-1 coverage type, tuition fee, monthly allowance, service bond, benefits).
-  - [x] `InternshipDetail` (1-to-1 work arrangement, location, stipend, duration, division, skills, MBKM flag).
-- [x] Build **Countdown Plan & Reminder Database** schema:
-  - [x] `TargetPlan` & `PlanMilestone` (Backward milestones, completion status, email reminder tracking).
+- [x] Build **User & Student Profile Database** schema (`User` with `passwordHash`/`consentedAt`, `StudentProfile`, `StudentCertificate`, `StudentExperience`).
+- [x] Build **Beasiswa & Magang (Opportunity) Database** schema (`Opportunity`, `OpportunityRule`, `ScholarshipDetail`, `InternshipDetail`).
+- [x] Build **Countdown Plan & Reminder Database** schema (`TargetPlan`, `PlanMilestone`, `ReminderDispatch`).
 - [ ] Configure live PostgreSQL connection string & execute initial database migration (`prisma db push` / `prisma migrate dev`).
 
 ---
 
-## Phase 3: Opportunity Catalog & Data Curation (15–20 Datasets)
-- [ ] Define JSON schema for structured eligibility rules (`Zod` validation).
-- [ ] Curate 15–20 high-value student opportunities (Scholarships, Exchange programs, Internships):
-  - [ ] Verify requirements from official announcement sources.
-  - [ ] Record official source URL and `last_verified_at` timestamp.
-  - [ ] Tag all entries with `is_prototype: true`.
-- [ ] Write seed script (`prisma/seed.ts`) to populate the database with the curated opportunities.
+## Phase 3: Opportunity Catalog & Data Curation (15 Datasets)
+- [x] Define JSON schema for structured eligibility rules (`Zod` validation).
+- [x] Curate 15 official 2026 student opportunities (`src/lib/data/prototype-opportunities.ts`) with `isPrototype: true`.
+- [x] Write seed script (`prisma/seed.ts`) reading directly from `PROTOTYPE_OPPORTUNITIES` + `prisma/data/verification-log.json`.
+- [ ] Record team verification entries in `prisma/data/verification-log.json` and execute `npm run db:seed` on live DB.
 
 ---
 
 ## Phase 4: Deterministic Engine Development (Pure Code)
-- [x] **Schemas & Types (`src/lib/engine/schema.ts`)**:
-  - [x] Strict Zod validation & TypeScript contracts for Student Profile, Opportunity Rules, Gap Report, and Countdown Plan.
-- [x] **Eligibility Evaluator (`src/lib/engine/eligibility.ts`)**:
-  - [x] Evaluate degree level & eligible majors.
-  - [x] Evaluate semester range eligibility (`minSemester` - `maxSemester`).
-  - [x] Evaluate GPA cutoff (`minGpa`) with exact delta calculation.
-  - [x] Evaluate certificate validity against program deadline (UTC calendar-day expiry date checking & score verification).
-  - [x] Evaluate relevant experience months (`minExperienceMonths`).
-  - [x] Generate structured Gap Report output (`MET` / `NOT_MET` per rule).
-- [x] **Backward Planner (`src/lib/engine/countdown.ts` & `src/lib/engine/gpa-calculator.ts`)**:
-  - [x] Calculate reverse milestone dates from deadline (test taking buffer, experience start date, document draft H-14, final submission H-3).
-  - [x] Calculate required semester GPA for remaining terms to hit minimum threshold (plus achievability check <= 4.00).
-- [x] Write comprehensive unit tests (`src/lib/engine/__tests__/engine.test.ts`) for edge cases (expiring on deadline day, 1 day before deadline, low score, borderline GPA, missing experience).
+- [x] **Schemas & Types (`src/lib/engine/schema.ts`)**
+- [x] **Eligibility Evaluator (`src/lib/engine/eligibility.ts`)**
+- [x] **Backward Planner (`src/lib/engine/countdown.ts` & `src/lib/engine/gpa-calculator.ts`)**
+- [x] Unit tests (`src/lib/engine/__tests__/engine.test.ts` — 11 tests including all 15 curated opportunities) + Server logic tests (`src/server/__tests__/server-logic.test.ts` — 24 tests).
 
 ---
 
-## Phase 5: Mobile-Friendly Frontend Development
-- [x] **Navigation & Layout**:
-  - [x] Mobile-optimized 3-tab bottom navigation (`Explore`, `My Plans`, `Profile`) & Forest/Sage header variants (`src/components/layout/`).
-  - [x] Dashed `Prototype Data` badge (`src/components/ui/prototype-badge.tsx`).
-- [x] **Welcome & Auth Screens**:
-  - [x] Welcome / Onboarding (`/`) with AMIKOM brand header, dotted trajectory, and 3-step guide.
-  - [x] Create Account (`/signup`) & Login (`/login`) with inline field validation and Google OAuth button layout.
-- [x] **Student Profile Onboarding (`/profile`)**:
-  - [x] Form for Semester, Current GPA (`/4.00`), Degree, and Major.
-  - [x] Certificate manager (type, score, expiry date picker, undo snackbar on delete).
-  - [x] Experience manager (role, organization, category, duration in months, undo snackbar on delete).
-- [x] **Opportunity Directory (`/explore`)**:
-  - [x] Search input, horizontally scrollable category filter chips (`All`, `Scholarship`, `Competition`, `Internship`, `Training`), Sem/GPA pill.
-  - [x] Real-time deterministic gap status chips (`Eligible` / `Missing N Requirements`), skeleton loading, and empty state.
-- [x] **Opportunity Detail & Gap Report (`/opportunities/[id]`)**:
-  - [x] Program summary card with official source link, last-verified pill, and deadline pill.
-  - [x] `GapReportCard` with accessible segmented progress bar, `UNMET REQUIREMENTS`, and `MET REQUIREMENTS`.
-- [x] **Countdown Plan & My Plans (`/opportunities/[id]/countdown`, `/plans`)**:
-  - [x] Big countdown header (`days until the deadline`), email reminder toggle card (`H-30`, `H-14`, `H-7` chips), and backward timeline.
-  - [x] Saved targets list on `/plans` with readiness progress bar, profile summary card, and reminder summary.
+## Phase 5: Responsive Mobile & Desktop Frontend (`readypath-mobile.pen` v3.0)
+- [x] **Design Tokens & Shell**: Calm Forest (`#112F29`) + Mint (`#DCEEE5`) palette, `Plus Jakarta Sans` (400–800), `BrandLogo`, `DesktopNavbar` (Public + App variants), mobile `BottomNav` & Forest headers.
+- [x] **Landing & Auth (`/`, `/signup`, `/login`)**: Responsive 2-col desktop hero with Featured Opportunity card, split-panel auth cards, required privacy consent checkbox, NextAuth wiring.
+- [x] **Explore (`/explore`)**: Search + Category Chips + Sort dropdown + responsive 3-col desktop grid / 1-col mobile list with deterministic status chips.
+- [x] **Detail & Gap Report (`/opportunities/[id]`)**: 2-col desktop layout with sticky Readiness Action Rail + `GapReportCard`.
+- [x] **Countdown Plan (`/opportunities/[id]/countdown`)**: Forest Countdown Strip, interactive H-30/H-14/H-7 reminder toggles, backward timeline, Plan Summary rail.
+- [x] **My Plans & Tracker (`/plans`, `/plans/[opportunityId]`)**: Profile strip, 3 KPI stat cards, 3-col targets grid, Global Reminder Bar, Saved Plan Tracker with Action Checklist & Remove Plan.
+- [x] **Profile Hub & Setup (`/profile`, `/profile/setup`)**: Profile & Settings 2-col hub (Identity, Academic Data, Preferences, Account, Log Out, Delete Account) + Setup editor with responsive Sheet/Modal for Add Certificate & Add Experience.
 
 ---
 
-## Phase 6: Email Reminder & Cron System
-- [ ] Integrate **Resend** email SDK.
-- [ ] Build responsive email templates with React Email:
-  - [ ] Welcome & Initial Gap Report summary.
-  - [ ] Milestone reminder email (T-90, T-60, T-30, T-7 days).
-- [ ] Implement Cron endpoint (`/api/cron/reminders`):
-  - [ ] Secure endpoint with `CRON_SECRET`.
-  - [ ] Query plans with milestones due today.
-  - [ ] Dispatch email notifications.
-- [ ] Configure Vercel Cron (`vercel.json`) to trigger daily execution.
+## Phase 6: Backend API, Email Reminder & Cron System
+- [x] NextAuth Credentials + optional Google OAuth (`/api/auth/*`, `/api/auth/register`).
+- [x] Student Profile & Plans API (`/api/profile`, `/api/plans`, `/api/plans/[opportunityId]`, `/api/account`).
+- [x] Opportunities & Server Gap Report API (`/api/opportunities`, `/api/opportunities/[id]`, `/api/opportunities/[id]/report`, `/api/health`).
+- [x] Email provider layer (Resend + SMTP + Console dry-run) & Cron endpoint (`/api/cron/reminders`, `vercel.json`).
+- [ ] Stage 2: Add `PATCH` milestone checklist endpoint (`PlanMilestone.isCompleted`) and wire Saved Plan Tracker persistence.
 
 ---
 
-## Phase 7: Quality Assurance & Edge Testing
-- [ ] Test mobile responsiveness across iOS Safari, Android Chrome, and desktop screens.
-- [ ] Verify deterministic calculations across sample student profiles.
-- [ ] Test email reminder dispatch workflow with staging mailbox.
-- [ ] Perform accessibility (a11y) check for forms and contrast ratios.
-
----
-
-## Phase 8: Deployment & Production Launch
-- [ ] Deploy database to Supabase/Neon production tier.
-- [ ] Connect repository to Vercel and configure production environment variables.
-- [ ] Execute production seed script for 15–20 curated opportunities.
-- [ ] Verify live domain, SSL, Cron job trigger logs, and transactional email deliverability.
-- [ ] Document user feedback collection mechanism.
+## Phase 7 & 8: Live Database, QA & Production Launch (Stage 3)
+- [ ] Connect Neon/Supabase PostgreSQL (`DATABASE_URL` & `DIRECT_URL`), run `prisma db push` + `npm run db:seed`.
+- [ ] Run `scripts/smoke-test.mjs` end-to-end against live DB & configure SMTP/Resend email delivery.
+- [ ] Deploy to Vercel with production environment variables & verify live Cron + mobile/desktop responsiveness.

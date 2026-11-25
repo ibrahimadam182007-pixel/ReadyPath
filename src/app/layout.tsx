@@ -5,7 +5,7 @@ import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
 });
 
@@ -18,9 +18,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#173D33",
+  themeColor: "#112F29",
 };
 
 export default function RootLayout({
@@ -31,11 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`h-full antialiased ${plusJakartaSans.variable}`}>
       <body
-        className={`${plusJakartaSans.className} min-h-screen bg-[#B7D1BA] text-rp-text flex justify-center`}
+        className={`${plusJakartaSans.className} min-h-screen bg-rp-bg text-rp-text`}
       >
-        <div className="w-full max-w-[390px] min-h-screen bg-rp-bg flex flex-col border-x border-rp-border/70">
-          <ReadyPathProvider>{children}</ReadyPathProvider>
-        </div>
+        <ReadyPathProvider>{children}</ReadyPathProvider>
       </body>
     </html>
   );

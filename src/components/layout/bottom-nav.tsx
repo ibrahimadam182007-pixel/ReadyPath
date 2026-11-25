@@ -17,13 +17,15 @@ export function BottomNav() {
 
   return (
     <nav
-      aria-label="Primary Navigation"
-      className="sticky bottom-0 z-20 bg-rp-surface rounded-t-[16px] border-t border-rp-border/70 px-3 py-2"
+      aria-label="Primary Mobile Navigation"
+      className="lg:hidden sticky bottom-0 z-20 bg-rp-surface border-t border-rp-border px-3 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
     >
-      <ul className="grid grid-cols-3 gap-1">
+      <ul className="grid grid-cols-3 gap-1.5">
         {NAV_ITEMS.map((item) => {
           const isActive =
-            pathname === item.href || pathname.startsWith(`${item.href}/`);
+            pathname === item.href ||
+            pathname.startsWith(`${item.href}/`) ||
+            (item.href === "/explore" && pathname.startsWith("/opportunities"));
           const Icon = item.icon;
 
           return (
@@ -31,13 +33,13 @@ export function BottomNav() {
               <Link
                 href={item.href}
                 className={cn(
-                  "flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-[12px] px-2 py-1.5 text-[11px] font-medium transition-colors",
+                  "flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-[12px] px-2 py-1.5 text-[10.5px] transition-colors",
                   isActive
-                    ? "bg-rp-tag text-rp-primary font-semibold"
-                    : "text-rp-text-muted hover:text-rp-text"
+                    ? "bg-rp-surface-met text-rp-primary font-bold"
+                    : "text-rp-text-muted font-medium hover:text-rp-text"
                 )}
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
+                <Icon className="h-[19px] w-[19px]" strokeWidth={isActive ? 2.2 : 1.8} />
                 <span>{item.label}</span>
               </Link>
             </li>

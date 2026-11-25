@@ -2,22 +2,27 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface PrototypeBadgeProps {
-  className?: string;
   onDark?: boolean;
+  label?: string;
+  className?: string;
 }
 
-export function PrototypeBadge({ className, onDark = false }: PrototypeBadgeProps) {
+export function PrototypeBadge({
+  onDark = false,
+  label = "Prototype Data",
+  className,
+}: PrototypeBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[4px] border border-dashed px-1.5 py-0.5 text-[10px] font-medium leading-none",
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.01em] whitespace-nowrap",
         onDark
-          ? "border-white/50 text-white/85"
-          : "border-rp-text-muted text-rp-text-muted",
+          ? "border border-white/25 bg-white/10 text-rp-primary-on-muted"
+          : "bg-rp-tag-bg text-rp-tag",
         className
       )}
     >
-      Prototype Data
+      {label}
     </span>
   );
 }

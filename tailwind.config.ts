@@ -9,24 +9,32 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
+      },
       colors: {
-        // ReadyPath Design Tokens (from docs/design.md)
+        // ReadyPath Design Tokens (readypath-mobile.pen v3.0)
         rp: {
           primary: "var(--color-primary)",
+          "primary-hover": "var(--color-primary-hover)",
           "primary-on": "var(--color-primary-text-on)",
           "primary-on-muted": "var(--color-primary-text-on-muted)",
           bg: "var(--color-bg)",
           surface: "var(--color-surface)",
+          sage: "var(--color-sage)",
+          "sage-strong": "var(--color-sage-strong)",
           "surface-met": "var(--color-surface-met)",
-          tag: "var(--color-tag-bg)",
+          success: "var(--color-success)",
+          "tag-bg": "var(--color-tag-bg)",
+          tag: "var(--color-tag)",
           text: "var(--color-text)",
           "text-muted": "var(--color-text-muted)",
           "text-muted-bg": "var(--color-text-muted-on-bg)",
           border: "var(--color-border)",
+          hairline: "var(--color-hairline)",
           danger: "var(--color-danger)",
           "danger-bg": "var(--color-danger-bg)",
           "danger-border": "var(--color-danger-border)",
-          success: "var(--color-success)",
         },
         // shadcn/ui semantic compatibility
         background: "hsl(var(--background))",
@@ -60,13 +68,16 @@ const config: Config = {
         "rp-md": "var(--radius-md)",
         "rp-lg": "var(--radius-lg)",
         "rp-xl": "var(--radius-xl)",
+        "rp-2xl": "var(--radius-2xl)",
         "rp-pill": "var(--radius-pill)",
         lg: "var(--radius-lg)",
         md: "var(--radius-md)",
         sm: "var(--radius-sm)",
       },
       boxShadow: {
-        "rp-flat": "0 1px 2px rgba(0, 0, 0, 0.04)",
+        "rp-flat": "0 1px 2px rgba(17, 47, 41, 0.04)",
+        "rp-card": "0 2px 10px rgba(17, 47, 41, 0.05)",
+        "rp-modal": "0 20px 50px rgba(17, 47, 41, 0.22)",
       },
     },
   },

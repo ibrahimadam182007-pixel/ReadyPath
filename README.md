@@ -23,6 +23,15 @@ Currently, opportunity requirements (such as minimum GPA, required certificates,
 * **Semifinal Submission (30 November 2026):** Core data model, 15 curated opportunities, and a functional Gap Report prototype.
 * **Final Day (16 December 2026):** Full working Countdown Plan integrated with automated email reminders.
 
+## AI Assistance Disclosure
+In accordance with competition rules, Team Kampus_Ungu discloses material use of generative AI tools during proposal and project preparation:
+
+- **ChatGPT & Gemini:** Assisted with English phrasing, proposal structure and editing, abstract drafting, survey design and result tabulation, table formatting, and proposal review.
+- **Claude (Anthropic):** Assisted with backend development support and technical drafting.
+- **pen.dev:** Assisted with UI design and layout exploration.
+
+All repository behaviors, commit counts, survey findings, implementation statuses, and UI design decisions were cross-checked by the team against the actual codebase, design artifacts, and records, with discrepancies corrected and unexecuted items (including live PostgreSQL deployment, live email reminders, full `verification-log.json` auditing, and post-submission alternative tool benchmarking) explicitly marked as planned or pending rather than completed.
+
 ## Getting Started
 
 1. **Clone the repository**
